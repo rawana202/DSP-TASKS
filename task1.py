@@ -1,11 +1,22 @@
 import tkinter as tk
 from tkinter import filedialog 
-
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 def create_page(parent):
     page = tk.Frame(parent)
 
+    #2-The ability to display a signal using any visualization library.
+    figure = Figure(figsize=(6, 4))
+    axes = figure.add_subplot(111)
 
+    axes.set_xlabel("Sample index (n)")
+    axes.set_ylabel("Amplitude")
+
+    canvas = FigureCanvasTkAgg(figure, master=page)
+
+
+    #1-Apply a function which can read a signal from txt file in this format. 
     def load_signal():
         file_path = filedialog.askopenfilename(
             title="Choose a signal",
@@ -28,16 +39,20 @@ def create_page(parent):
                 indices.append(int(index))
                 samples.append(float(value))
 
-            print("Indices:", indices)
-            print("Samples:", samples)
 
 
-        status_label.config(
-            text=f"Loaded {len(samples)} samples"
-        )
+            axes.clear()
+            axes.stem(indices, samples)
+            axes.set_title("Loaded Signal")
+            axes.set_xlabel("Sample index (n)")
+            axes.set_ylabel("Amplitude")
+            axes.grid(True)
+
+            canvas.draw()
 
 
 
+    #load signal button
     load_button = tk.Button(
         page,
         text="Load Signal",
@@ -45,11 +60,6 @@ def create_page(parent):
     )
     load_button.pack(pady=20)
 
-    status_label = tk.Label(page, text="No signal loaded")
-    status_label.pack()
 
-
-    title = tk.Label(page, text="")
-    title.pack(pady=20)
-
+    canvas.get_tk_widget().pack(fill="both", expand=True)
     return page
