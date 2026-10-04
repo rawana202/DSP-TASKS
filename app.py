@@ -1,32 +1,46 @@
 import tkinter as tk
+import task1 , task2
+
 
 window = tk.Tk()
 window.title("DSP Tasks")
 window.geometry("800x600")
 
-
-def open_task1():
-    home_frame.pack_forget()
-    task1_frame.pack(fill="both", expand=True)
-
-home_frame = tk.Frame(window)
-home_frame.pack(fill="both", expand=True)
-
-task1_button = tk.Button(
-    home_frame,
-    text="Task 1",
-    command=open_task1
-)
-task1_button.pack(pady=20)
+#menu bar 
+menu = tk.Frame(window)
+menu.pack(side="left", fill="y")
 
 
-task1_frame = tk.Frame(window)
+#the task gui appears here
+content = tk.Frame(window)
+content.pack(side="right", fill="both", expand=True)
 
-task1_label = tk.Label(
-    task1_frame,
-    text="Welcome to Task 1"
-)
-task1_label.pack(pady=20)
+#tasks files
+tasks = [
+    task1,task2
+]
 
+#page for each task
+pages = {}
+
+for number, task in enumerate(tasks, start=1):
+    pages[number] = task.create_page(content)
+
+
+def show_task(number):
+    for page in pages.values():
+        page.pack_forget()
+
+    pages[number].pack(fill="both", expand=True)
+
+
+#create 10 buttons
+for number in range(1, 11):
+    button = tk.Button(
+        menu,
+        text=f"Task {number}",
+        command=lambda n=number: show_task(n)
+    )
+    button.pack(padx=10, pady=8, fill="x")
 
 window.mainloop()
