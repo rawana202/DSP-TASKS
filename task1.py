@@ -123,6 +123,43 @@ def create_page(parent):
 
         draw_signal(result_indices, result_samples)
 
+    def delay_or_advance():
+        if len(signals) != 1:
+            print("Need exactly one signal")
+            return
+        try:
+            constant = float(shift_entry.get())
+        except ValueError:
+            print("Enter a valid number")
+            return
+
+        indices, samples = signals[0]
+        result = {}
+        for index, value in zip(indices, samples):
+            result[index - float(shift_entry.get())] = value
+
+        result_indices = sorted(result)
+        result_samples = [
+            result[index] for index in result_indices
+        ]
+        draw_signal(result_indices, result_samples)
+
+    def reverse_signal():
+        if len(signals) != 1:
+            print("Need exactly one signal")
+            return
+
+        indices, samples = signals[0]
+        result = {}
+        for index, value in zip(indices, samples):
+            result[-index] = value
+
+        result_indices = sorted(result)
+        result_samples = [
+            result[index] for index in result_indices
+        ]
+        draw_signal(result_indices, result_samples)
+
 
     #load signal button
     load_button = tk.Button(
@@ -157,6 +194,23 @@ def create_page(parent):
     )
     sub_button.pack(pady=10)
 
+    shift_button = tk.Button(
+        page,
+        text="Delay/Advance Signal",
+        command=delay_or_advance
+    )
+    shift_button.pack(pady=10)
+
+    tk.Label(page, text="Shift constant").pack()
+    shift_entry = tk.Entry(page)
+    shift_entry.pack(pady=5)
+
+    load_button = tk.Button(
+        page,
+        text="Reverse Signal",
+        command=reverse_signal
+    )
+    load_button.pack(pady=20)
 
     canvas.get_tk_widget().pack(fill="both", expand=True)
     return page
