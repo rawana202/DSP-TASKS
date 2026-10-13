@@ -32,6 +32,7 @@ def show_task(number):
         page.pack_forget()
 
     pages[number].pack(fill="both", expand=True)
+    window.config(menu=getattr(pages[number], "menu_bar", ""))
 
 
 #create 10 buttons
@@ -42,5 +43,7 @@ for number in range(1, 11):
         command=lambda n=number: show_task(n)
     )
     button.pack(padx=10, pady=8, fill="x")
+
+show_task(1)
 
 window.mainloop()
