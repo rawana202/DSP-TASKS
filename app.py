@@ -1,5 +1,5 @@
 import tkinter as tk
-import task1 , task2
+import task1 , task2,task3
 
 
 window = tk.Tk()
@@ -17,7 +17,7 @@ content.pack(side="right", fill="both", expand=True)
 
 #tasks files
 tasks = [
-    task1,task2
+    task1,task2,task3
 ]
 
 #page for each task
