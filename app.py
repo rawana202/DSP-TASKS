@@ -1,5 +1,5 @@
 import tkinter as tk
-import task1 , task2,task3
+import task1, task2, task3, task4
 
 
 window = tk.Tk()
@@ -17,7 +17,7 @@ content.pack(side="right", fill="both", expand=True)
 
 #tasks files
 tasks = [
-    task1,task2,task3
+    task1, task2, task3, task4
 ]
 
 #page for each task
@@ -35,8 +35,8 @@ def show_task(number):
     window.config(menu=getattr(pages[number], "menu_bar", ""))
 
 
-#create 10 buttons
-for number in range(1, 11):
+# Create one button for each available task.
+for number in range(1, len(tasks) + 1):
     button = tk.Button(
         menu,
         text=f"Task {number}",
